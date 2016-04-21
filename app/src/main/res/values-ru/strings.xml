@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Направление ветра</string>
+
+    <string name="sCourse">Курс судна</string>
+    <string name="sSpeed">Скорость судна</string>
+    <string name="rwCourse">Направление относительного ветра</string>
+    <string name="rwSpeed">Скорость относительного ветра</string>
+    <string name="ownShip">Судно</string>
+    <string name="rWind">Относительный ветер</string>
+    <string name="tWind">Истинный ветер</string>
+    <string name="direction">Направление</string>
+    <string name="speed">Скорость</string>
+    <string name="knots">Уз.</string>
+    <string name="shortForKnots">Уз.</string>
+    <string name="setSCourse">Укажите курс судно</string>
+    <string name="setSSpeed">Укажите скорость судна</string>
+    <string name="setWCourse">Укажите направление ветра</string>
+    <string name="setWSpeed">Укажите скорость судна</string>
+    <string name="beaufort">Балл.</string>
+    <string name="rumb">Румб</string>
+    <string name="rumbAccurate">Точный румб</string>
+    <string name="done">Готово</string>
+    <string name="degrees">º</string>
+    <string name="direction_display">Единицы направления</string>
+    <string name="speed_display">Единицы скорости</string>
+    <string name="language">Язык</string>
+    <string name="degs">Градусы</string>
+    <string name="kph">Км/ч</string>
+    <string name="mps">м.с</string>
+    <string name="mph">Миль/ч</string>
+</resources>

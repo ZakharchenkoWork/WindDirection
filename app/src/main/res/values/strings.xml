@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Wind Direction</string>
+    <string name="sCourse">Ships course</string>
+    <string name="sSpeed">Ships speed</string>
+    <string name="rwCourse">Relative wind direction</string>
+    <string name="rwSpeed">Relative wind speed</string>
+    <string name="ownShip">Own ship</string>
+    <string name="rWind">Relative wind</string>
+    <string name="tWind">True wind</string>
+    <string name="direction">Direction</string>
+    <string name="speed">Speed</string>
+    <string name="knots">Knots</string>
+    <string name="shortForKnots">Kn</string>
+    <string name="setSCourse">Set ships course</string>
+    <string name="setSSpeed">Set ships speed</string>
+    <string name="setWCourse">Set wind direction</string>
+    <string name="setWSpeed">Set wind speed</string>
+    <string name="beaufort">Beaufort</string>
+    <string name="rumb">Rumb</string>
+    <string name="rumbAccurate">Accurate rumb</string>
+    <string name="done">Done</string>
+    <string name="degrees">º</string>
+    <string name="direction_display">Direction result</string>
+    <string name="speed_display">Speed result</string>
+    <string name="language">Language</string>
+    <string name="degs">Degrees</string>
+    <string name="kph">KPH</string>
+    <string name="mps">MPS</string>
+    <string name="mph">MPH</string>
+</resources>

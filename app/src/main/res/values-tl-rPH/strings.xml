@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Direksyon ng hangin</string>
+    <string name="sCourse">Patutunguhan ng barko</string>
+    <string name="sSpeed">Bilis ng barko</string>
+    <string name="rwCourse">Ukol na direksyon ng hangin</string>
+    <string name="rwSpeed">Ukol na bilis ng hangin</string>
+    <string name="ownShip">Sariling barko</string>
+    <string name="rWind">Ukol ng hangin </string>
+    <string name="tWind">Totoong hangin</string>
+    <string name="direction">Direksyon</string>
+    <string name="speed">Bilis</string>
+    <string name="knots">Knots</string>
+    <string name="shortForKnots">Kn</string>
+    <string name="setSCourse">Itakda ang patutunguhan ng barko </string>
+    <string name="setSSpeed">Itakda ang bilis ng barko</string>
+    <string name="setWCourse">Itakda ang direksyon ng hangin</string>
+    <string name="setWSpeed">Itakda ang bilis ng hangin</string>
+    <string name="beaufort">Beaufort</string>
+    <string name="rumb">Rumb</string>
+    <string name="rumbAccurate">Accurate runb</string>
+    <string name="done">Tapos na</string>
+    <string name="degrees">º</string>
+    <string name="direction_display">Kinalabasan na direksyon</string>
+    <string name="speed_display">Kinalabasan na bilis</string>
+    <string name="language">Wika</string>
+    <string name="degs">Degrees</string>
+    <string name="kph">KPH</string>
+    <string name="mps">MPS</string>
+    <string name="mph">MPH</string>
+</resources>

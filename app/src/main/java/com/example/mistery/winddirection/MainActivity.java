@@ -19,14 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import ResultManager.*;
+
+import com.example.mistery.winddirection.factorys.ChooserDialogInit;
+import com.example.mistery.winddirection.factorys.PickerDialogInit;
 import com.znshadows.dialogs.ChooserDialog;
 import com.znshadows.dialogs.PickerDialog;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     public static final String PREF_MODE_OF_SPEED = "mode of speed";
     public static final String PREF_MODE_OF_DIRECTION = "mode of direction";
@@ -38,10 +43,10 @@ public class MainActivity extends AppCompatActivity{
 
     static String[] directionDiplayTypes;
     static String[] speedDiplayTypes;
-    static String[] languageDiplayTypes = new String[] {"English", "Русский", "Tagalog"};
+    static String[] languageDiplayTypes = new String[]{"English", "Русский", "Tagalog"};
 
-    static VisualCharacteristics shipCharacteristics = new VisualCharacteristics();
-    static VisualCharacteristics windCharacteristics = new VisualCharacteristics();
+    static Characteristics shipCharacteristics = new Characteristics();
+    static Characteristics windCharacteristics = new Characteristics();
 
     Typeface projectTypeface = null;
 
@@ -64,13 +69,16 @@ public class MainActivity extends AppCompatActivity{
     float scale = 5;
     ArrayList<Result> speedResult;
     ArrayList<Result> directionResult;
+    Map<Integer, PickerDialogInit> pickerDialogCallMethods = new HashMap<Integer, PickerDialogInit>();
+    Map<Integer, ChooserDialogInit> chooserDialogCallMethods = new HashMap<Integer, ChooserDialogInit>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        directionDiplayTypes = new String[] {getString(R.string.degs), getString(R.string.rumb), getString(R.string.rumbAccurate)};
-        speedDiplayTypes = new String[] {getString(R.string.knots), getString(R.string.beaufort), getString(R.string.kph), getString(R.string.mps), getString(R.string.mph)};
+        directionDiplayTypes = new String[]{getString(R.string.degs), getString(R.string.rumb), getString(R.string.rumbAccurate)};
+        speedDiplayTypes = new String[]{getString(R.string.knots), getString(R.string.beaufort), getString(R.string.kph), getString(R.string.mps), getString(R.string.mph)};
         //languageDiplayTypes = new String[] {"...."}; Allready inserted
 
         prepareResultMethods();
@@ -79,30 +87,139 @@ public class MainActivity extends AppCompatActivity{
         SpeedPickerDialog.setInnerResultUnits(getString(R.string.knots));
 
 
-
         loadPreferences();
-        if (!getResources().getConfiguration().locale.equals(prepareLanguage(languageDiplayTypes[MODE_OF_LANGUAGE])))
-        {changeLanguage(languageDiplayTypes[MODE_OF_LANGUAGE]);}
+        if (!getResources().getConfiguration().locale.equals(prepareLanguage(languageDiplayTypes[MODE_OF_LANGUAGE]))) {
+            changeLanguage(languageDiplayTypes[MODE_OF_LANGUAGE]);
+        }
 
-        if(MODE_OF_LANGUAGE == 1) {
-            projectTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Roboto-Light.ttf");}
-        else {
+        if (MODE_OF_LANGUAGE == 1) {
+            projectTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Roboto-Light.ttf");
+        } else {
             projectTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Amsdam_Regular.ttf");
         }
 
         View.OnClickListener listener = prepareOnClickListener();
         initialiseViews(listener);
-
-        refreshUI();
+        initializeDialogs();
+        initializeMenu();
+        refreshGraphics();
 
     }
-    private void loadPreferences()
-    {
+
+    private void initializeMenu() {
+        chooserDialogCallMethods.put(R.id.direction, new ChooserDialogInit() {
+            @Override
+            public void init() {
+                new ChooserDialog(MainActivity.this, getString(R.string.direction_display), directionDiplayTypes, new ChooserDialog.OnChooseListener() {
+                    @Override
+                    public void onChoose(int result) {
+                        MODE_OF_DIRECTION = result;
+                        refreshGraphics();
+                        savePreferences();
+                    }
+                });
+            }
+        });
+        chooserDialogCallMethods.put(R.id.speed, new ChooserDialogInit() {
+            @Override
+            public void init() {
+                new ChooserDialog(MainActivity.this, getString(R.string.speed_display), speedDiplayTypes, new ChooserDialog.OnChooseListener() {
+                    @Override
+                    public void onChoose(int result) {
+
+                        MODE_OF_SPEED = result;
+                        refreshGraphics();
+                        savePreferences();
+
+                    }
+                });
+            }
+        });
+        chooserDialogCallMethods.put(R.id.language, new ChooserDialogInit() {
+            @Override
+            public void init() {
+                new ChooserDialog(MainActivity.this, getString(R.string.language), languageDiplayTypes, new ChooserDialog.OnChooseListener() {
+                    @Override
+                    public void onChoose(int result) {
+                        Log.i("Menu", "choosen " + result);
+                        MODE_OF_LANGUAGE = result;
+                        savePreferences();
+                        restartActivity();
+                    }
+                });
+            }
+        });
+    }
+
+    private void initializeDialogs() {
+        pickerDialogCallMethods.put(R.id.shipsCourse, new PickerDialogInit() {
+            @Override
+            public void init() {
+                new DirectionPickerDialog(MainActivity.this, getString(R.string.setSCourse), shipCharacteristics.getCourse())
+                        .setFont(projectTypeface)
+                        .setOnDoneListener(new PickerDialog.OnDoneListener() {
+                            @Override
+                            public void onDone(float result) {
+                                shipCharacteristics.setCourse(result);
+                                refreshGraphics();
+                            }
+                        }).show();
+            }
+        });
+        pickerDialogCallMethods.put(R.id.shipsSpeed, new PickerDialogInit() {
+            @Override
+            public void init() {
+                new SpeedPickerDialog(MainActivity.this, getString(R.string.setSSpeed), shipCharacteristics.getSpeed())
+                        .setFont(projectTypeface)
+                        .setOnDoneListener(new PickerDialog.OnDoneListener() {
+                            @Override
+                            public void onDone(float result) {
+                                shipCharacteristics.setSpeed(result);
+                                refreshGraphics();
+                            }
+                        }).show();
+            }
+        });
+        pickerDialogCallMethods.put(R.id.windDirection, new PickerDialogInit() {
+            @Override
+            public void init() {
+                new DirectionPickerDialog(MainActivity.this, getString(R.string.setWCourse), windCharacteristics.getCourse())
+                        .setFont(projectTypeface)
+                        .setOnDoneListener(new PickerDialog.OnDoneListener() {
+                            @Override
+                            public void onDone(float result) {
+                                windCharacteristics.setCourse(result);
+                                refreshGraphics();
+                            }
+                        }).show();
+            }
+        });
+        pickerDialogCallMethods.put(R.id.windSpeed, new PickerDialogInit() {
+            @Override
+            public void init() {
+                new SpeedPickerDialog(MainActivity.this, getString(R.string.setWSpeed), windCharacteristics.getSpeed())
+                        .setFont(projectTypeface)
+                        .setOnDoneListener(new PickerDialog.OnDoneListener() {
+                            @Override
+                            public void onDone(float result) {
+                                windCharacteristics.setSpeed(result);
+                                refreshGraphics();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    /**
+     * Loading and applying of previous settings of the app
+     */
+    private void loadPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         MODE_OF_SPEED = prefs.getInt(PREF_MODE_OF_SPEED, 0);
         MODE_OF_DIRECTION = prefs.getInt(PREF_MODE_OF_DIRECTION, 0);
         MODE_OF_LANGUAGE = prefs.getInt(PREF_MODE_OF_LANGUAGE, 0);
     }
+
     private void prepareResultMethods() {
 
         speedResult = new ArrayList<Result>();
@@ -118,8 +235,7 @@ public class MainActivity extends AppCompatActivity{
         directionResult.add(new DirectionResultAcurateRumbs());
     }
 
-    private void initialiseViews(View.OnClickListener listener)
-    {
+    private void initialiseViews(View.OnClickListener listener) {
         shipsCourse = (Button) findViewById(R.id.shipsCourse);
         shipsSpeed = (Button) findViewById(R.id.shipsSpeed);
         windDirection = (Button) findViewById(R.id.windDirection);
@@ -144,156 +260,141 @@ public class MainActivity extends AppCompatActivity{
 
         configureFont(projectTypeface);
     }
-    private void refreshScale(float shipsSpeed, float windSpeed, float trueSpeed)
-    {
+
+    /**
+     * Used for correct displaying of the vectors, prevents them from becoming too big and run out of screen
+     * @param shipsSpeed
+     * @param windSpeed
+     * @param trueSpeed
+     */
+    private void refreshScale(float shipsSpeed, float windSpeed, float trueSpeed) {
         float biggest = 0;
-        if(shipsSpeed < windSpeed)
-        {
+        if (shipsSpeed < windSpeed) {
             biggest = windSpeed;
         } else {
             biggest = shipsSpeed;
         }
 
-        if(biggest < trueSpeed)
-        {
+        if (biggest < trueSpeed) {
             biggest = trueSpeed;
         }
         //with speed 20 knots scale must be 5, every 20 knots, scale is increased by 5
-        scale = ( 5 + (5 * (int)(biggest / 21) ));
+        scale = (5 + (5 * (int) (biggest / 21)));
 
     }
-    private void showResultPicture(Characteristics trueWind)
-    {
-        resultVectorImage.setBackgroundResource(R.drawable.result);
-        resultArrowImage.setBackgroundResource(R.drawable.result_arrow);
-        refreshScale(shipCharacteristics.getSpeed(),windCharacteristics.getSpeed(), trueWind.getSpeed());
-        resultVectorImage.setScaleY(trueWind.getSpeed() / scale);
-        resultVectorImage.setRotation(trueWind.getCourse());
-        resultArrowImage.setRotation(trueWind.getCourse());
-    }
 
-    public void refreshUI() {
-
-        if (shipCharacteristics.isReady() && windCharacteristics.isReady())
-        {
-            VisualCharacteristics trueWind = (VisualCharacteristics) Characteristics.calculateTrueWind(shipCharacteristics, windCharacteristics);
-            resultTextView.setText(getResultString(trueWind, MODE_OF_DIRECTION, MODE_OF_SPEED));
-            showResultPicture(trueWind);
-
+    /**
+     * Used for refreshing of all of the pictures of vectors at once
+     */
+    public void refreshGraphics() {
+        //in case the final vector is ready for displaying
+        if (shipCharacteristics.isReady() && windCharacteristics.isReady()) {
+            prepareTotalTrueWindGraphics();
+        } else {
+            resetTrueWindGraphics();
         }
-        else {
-            refreshScale(shipCharacteristics.getSpeed(),windCharacteristics.getSpeed(), 0);
-            resultVectorImage.setScaleY(1);
-            resultVectorImage.setRotation(0);
+        // displaying of picture for the ships vector
+        if (shipCharacteristics.isReady()) {
+            prepareTotalShipGraphics();
         }
 
-        if(shipCharacteristics.isReady()) {
-            shipsCourseVectorImage.setBackgroundResource(R.drawable.course);
-        }
-
-
-        if(shipCharacteristics.isCourseSet()) {
-            shipsCourseVectorImage.setRotation(shipCharacteristics.getCourse());
-            shipsCourse.setText(getString(R.string.sCourse) + ": " + directionResult.get(0).getResult(shipCharacteristics.getCourse(), getString(R.string.degrees)));
+        if (shipCharacteristics.isCourseSet()) {
+            prepareShipCourseGraphics();
         }
 
         if (shipCharacteristics.isSpeedSet()) {
-            shipsCourseVectorImage.setScaleY(shipCharacteristics.getSpeed() / scale);
-            shipsSpeed.setText(getString(R.string.sSpeed) + ": " + speedResult.get(0).getResult(shipCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+            prepareShipSpeedGraphics();
         }
 
-        if(windCharacteristics.isReady()) {
-            windDirectionVectorImage.setBackgroundResource(R.drawable.direction);
-            windDirectionArrowImage.setBackgroundResource(R.drawable.direction_arrow);
+        // displaying of picture for the wind vector
+        if (windCharacteristics.isReady()) {
+            prepareTotalRelativeWindGraphics();
         }
+
         if (windCharacteristics.isCourseSet()) {
-            windDirectionVectorImage.setRotation(windCharacteristics.getCourse());
-            windDirectionArrowImage.setRotation(windCharacteristics.getCourse());
-            windDirection.setText(getString(R.string.rwCourse) + ": " + directionResult.get(0).getResult(windCharacteristics.getCourse(), getString(R.string.degrees)));
-
+            prepareRelativeWindDirectionGraphics();
         }
+
         if (windCharacteristics.isSpeedSet()) {
-            windDirectionVectorImage.setScaleY(windCharacteristics.getSpeed() / scale);
-            windSpeed.setText(getString(R.string.rwSpeed) + ": " + speedResult.get(0).getResult(windCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+            prepareRelativeWindSpeedGraphics();
         }
-
 
 
     }
-    public String getResultString(Characteristics trueWind, int modeOfDirection, int modeOfSpeed)
-    {
+
+    private void resetTrueWindGraphics() {
+        refreshScale(shipCharacteristics.getSpeed(), windCharacteristics.getSpeed(), 0);
+        resultVectorImage.setScaleY(1);
+        resultVectorImage.setRotation(0);
+    }
+
+    private void prepareTotalTrueWindGraphics() {
+        Characteristics trueWind = (Characteristics) Characteristics.calculateTrueWind(shipCharacteristics, windCharacteristics);
+        resultTextView.setText(getResultString(trueWind, MODE_OF_DIRECTION, MODE_OF_SPEED));
+        resultVectorImage.setBackgroundResource(R.drawable.result);
+        resultArrowImage.setBackgroundResource(R.drawable.result_arrow);
+        refreshScale(shipCharacteristics.getSpeed(), windCharacteristics.getSpeed(), trueWind.getSpeed());
+        resultVectorImage.setScaleY(trueWind.getSpeed() / scale);
+        resultVectorImage.setRotation(trueWind.getCourse());
+        resultArrowImage.setRotation(trueWind.getCourse());
+
+    }
+
+    private void prepareTotalShipGraphics() {
+        shipsCourseVectorImage.setBackgroundResource(R.drawable.course);
+    }
+
+    private void prepareRelativeWindSpeedGraphics() {
+        windDirectionVectorImage.setScaleY(windCharacteristics.getSpeed() / scale);
+        windSpeed.setText(getString(R.string.rwSpeed) + ": " + speedResult.get(0).getResult(windCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+    }
+
+    private void prepareRelativeWindDirectionGraphics() {
+        windDirectionVectorImage.setRotation(windCharacteristics.getCourse());
+        windDirectionArrowImage.setRotation(windCharacteristics.getCourse());
+        windDirection.setText(getString(R.string.rwCourse) + ": " + directionResult.get(0).getResult(windCharacteristics.getCourse(), getString(R.string.degrees)));
+    }
+
+    private void prepareTotalRelativeWindGraphics() {
+        windDirectionVectorImage.setBackgroundResource(R.drawable.direction);
+        windDirectionArrowImage.setBackgroundResource(R.drawable.direction_arrow);
+    }
+
+    private void prepareShipSpeedGraphics() {
+        shipsCourseVectorImage.setScaleY(shipCharacteristics.getSpeed() / scale);
+        shipsSpeed.setText(getString(R.string.sSpeed) + ": " + speedResult.get(0).getResult(shipCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+    }
+
+    private void prepareShipCourseGraphics() {
+        shipsCourseVectorImage.setRotation(shipCharacteristics.getCourse());
+        shipsCourse.setText(getString(R.string.sCourse) + ": " + directionResult.get(0).getResult(shipCharacteristics.getCourse(), getString(R.string.degrees)));
+    }
+
+    public String getResultString(Characteristics trueWind, int modeOfDirection, int modeOfSpeed) {
 
         String resultString = getString(R.string.direction) + ": ";
 
-        if(modeOfDirection == 0) {
+        if (modeOfDirection == 0) {
             resultString += directionResult.get(modeOfDirection).getResult(trueWind.getCourse(), getString(R.string.degrees));
-        }
-        else {
+        } else {
             resultString += directionResult.get(modeOfDirection).getResult(trueWind.getCourse(), "");
         }
 
         resultString += ", " + getString(R.string.speed) + ": ";
 
-        resultString +=  speedResult.get(modeOfSpeed).getResult(trueWind.getSpeed(), speedDiplayTypes[modeOfSpeed]);
+        resultString += speedResult.get(modeOfSpeed).getResult(trueWind.getSpeed(), speedDiplayTypes[modeOfSpeed]);
 
         return resultString;
 
     }
 
-    private View.OnClickListener prepareOnClickListener()
-    {
+
+    private View.OnClickListener prepareOnClickListener() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.shipsCourse:
-                        new DirectionPickerDialog(MainActivity.this, getString(R.string.setSCourse), shipCharacteristics.getCourse())
-                                .setFont(projectTypeface)
-                                .setOnDoneListener(new PickerDialog.OnDoneListener() {
-                                    @Override
-                                    public void onDone(float result) {
-                                        shipCharacteristics.setCourse(result);
-                                        refreshUI();
-                                    }
-                                }).show();
-                        break;
-                    case R.id.shipsSpeed:
-                        new SpeedPickerDialog(MainActivity.this, getString(R.string.setSSpeed), shipCharacteristics.getSpeed())
-                                .setFont(projectTypeface)
-                                .setOnDoneListener(new PickerDialog.OnDoneListener() {
-                                    @Override
-                                    public void onDone(float result) {
-                                        shipCharacteristics.setSpeed(result);
-                                        refreshUI();
-                                    }
-                                }).show();
 
-
-                        break;
-                    case R.id.windDirection:
-                        new DirectionPickerDialog(MainActivity.this, getString(R.string.setWCourse), windCharacteristics.getCourse())
-                                .setFont(projectTypeface)
-                                .setOnDoneListener(new PickerDialog.OnDoneListener() {
-                                    @Override
-                                    public void onDone(float result) {
-                                        windCharacteristics.setCourse(result);
-                                        refreshUI();
-                                    }
-                                }).show();
-                        break;
-                    case R.id.windSpeed:
-                        new SpeedPickerDialog(MainActivity.this, getString(R.string.setWSpeed), windCharacteristics.getSpeed())
-                                .setFont(projectTypeface)
-                                .setOnDoneListener(new PickerDialog.OnDoneListener() {
-                                    @Override
-                                    public void onDone(float result) {
-                                        windCharacteristics.setSpeed(result);
-                                        refreshUI();
-                                    }
-                                }).show();
-                        break;
-                }
-
+                pickerDialogCallMethods.get(v.getId()).init();
             }
         };
 
@@ -314,49 +415,11 @@ public class MainActivity extends AppCompatActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        int id = item.getItemId();
-        switch (id)
-        {
-            case R.id.direction:
-                new ChooserDialog(this, getString(R.string.direction_display), directionDiplayTypes, new ChooserDialog.OnChooseListener() {
-                    @Override
-                    public void onChoose(int result) {
-                        MODE_OF_DIRECTION = result;
-                        refreshUI();
-                        savePreferences();
-
-                    }
-                });
-                break;
-            case R.id.speed:
-                new ChooserDialog(this, getString(R.string.speed_display), speedDiplayTypes, new ChooserDialog.OnChooseListener() {
-                    @Override
-                    public void onChoose(int result) {
-
-                        MODE_OF_SPEED = result;
-                        refreshUI();
-                        savePreferences();
-
-                    }
-                });
-                break;
-            case R.id.language:
-                new ChooserDialog(this, getString(R.string.language), languageDiplayTypes, new ChooserDialog.OnChooseListener() {
-                    @Override
-                    public void onChoose(int result) {
-                        Log.i("Menu", "choosen " + result);
-                        MODE_OF_LANGUAGE = result;
-                        savePreferences();
-                        restartActivity();
-                    }
-                });
-                break;
-            }
-
+        chooserDialogCallMethods.get(item.getItemId()).init();
         return super.onOptionsItemSelected(item);
     }
-    private void savePreferences()
-    {
+
+    private void savePreferences() {
         PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
                 .edit()
                 .putInt(PREF_MODE_OF_DIRECTION, MODE_OF_DIRECTION)
@@ -366,32 +429,32 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+
     /**
      * Preparing Locale for required Language
+     *
      * @param lang lang language to set
      * @return Locale for this language
      */
     Locale prepareLanguage(String lang) {
         Locale locale = null;
 
-        if(lang.equals(languageDiplayTypes[0]))
-        {
+        if (lang.equals(languageDiplayTypes[0])) {
             locale = new Locale("en");
         }
-        if(lang.equals(languageDiplayTypes[1]))
-        {
+        if (lang.equals(languageDiplayTypes[1])) {
             locale = new Locale("ru");
 
         }
-        if(lang.equals(languageDiplayTypes[2]))
-        {
-            locale = new Locale("tl","PH");
+        if (lang.equals(languageDiplayTypes[2])) {
+            locale = new Locale("tl", "PH");
         }
         return locale;
     }
 
     /**
      * changes language of the app
+     *
      * @param lang language to set
      */
     void changeLanguage(String lang) {
@@ -405,14 +468,12 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Refreshes Activity
      */
-    void restartActivity()
-    {
+    void restartActivity() {
         startActivity(new Intent(MainActivity.this, MainActivity.class));
         finish();
     }
 
-    void configureFont(Typeface typeface)
-    {
+    void configureFont(Typeface typeface) {
         shipsCourse.setTypeface(typeface);
         shipsSpeed.setTypeface(typeface);
         windDirection.setTypeface(typeface);

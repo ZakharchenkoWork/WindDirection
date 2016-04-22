@@ -5,30 +5,39 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.mistery.winddirection.factorys.ChooserDialogInit;
+import com.example.mistery.winddirection.factorys.PickerDialogInit;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
+import com.znshadows.dialogs.ChooserDialog;
+import com.znshadows.dialogs.PickerDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import ResultManager.*;
-
-import com.example.mistery.winddirection.factorys.ChooserDialogInit;
-import com.example.mistery.winddirection.factorys.PickerDialogInit;
-import com.znshadows.dialogs.ChooserDialog;
-import com.znshadows.dialogs.PickerDialog;
+import ResultManager.DirectionResultAcurateRumbs;
+import ResultManager.DirectionResultDegrees;
+import ResultManager.DirectionResultRumbs;
+import ResultManager.Result;
+import ResultManager.SpeedResultBeaufort;
+import ResultManager.SpeedResultKPH;
+import ResultManager.SpeedResultKnots;
+import ResultManager.SpeedResultMPH;
+import ResultManager.SpeedResultMPS;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,12 +79,15 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Result> speedResult;
     ArrayList<Result> directionResult;
     Map<Integer, PickerDialogInit> pickerDialogCallMethods = new HashMap<Integer, PickerDialogInit>();
-    Map<Integer, ChooserDialogInit> chooserDialogCallMethods = new HashMap<Integer, ChooserDialogInit>();
+    Map<View, ChooserDialogInit> chooserDialogCallMethods = new HashMap<View, ChooserDialogInit>();
+
+    ResideMenu resideMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         directionDiplayTypes = new String[]{getString(R.string.degs), getString(R.string.rumb), getString(R.string.rumbAccurate)};
         speedDiplayTypes = new String[]{getString(R.string.knots), getString(R.string.beaufort), getString(R.string.kph), getString(R.string.mps), getString(R.string.mph)};
@@ -101,13 +113,34 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = prepareOnClickListener();
         initialiseViews(listener);
         initializeDialogs();
-        initializeMenu();
+
         refreshGraphics();
+        // attach to current activity;
+        resideMenu = new ResideMenu(this);
+        resideMenu.setBackground(R.drawable.menu_background);
+        resideMenu.attachToActivity(this);
+
+        // create menu items;
+        String titles[] = {getString(R.string.direction_display), getString(R.string.speed_display), getString(R.string.language)};
+        int icon[] = {R.drawable.menu_deg, R.drawable.menu_dist, R.drawable.menu_lang};
+        View.OnClickListener menuListener = prepareMenuListener();
+
+        ResideMenuItem direction = new ResideMenuItem(this, icon[0], titles[0]);
+        direction.setOnClickListener(menuListener);
+        resideMenu.addMenuItem(direction, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
+
+        ResideMenuItem distance = new ResideMenuItem(this, icon[1], titles[1]);
+        distance.setOnClickListener(menuListener);
+        resideMenu.addMenuItem(distance, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
+        ResideMenuItem language = new ResideMenuItem(this, icon[2], titles[2]);
+        language.setOnClickListener(menuListener);
+        resideMenu.addMenuItem(language, ResideMenu.DIRECTION_RIGHT); // or  ResideMenu.DIRECTION_RIGHT
+        initializeMenu(direction,distance,language);
 
     }
 
-    private void initializeMenu() {
-        chooserDialogCallMethods.put(R.id.direction, new ChooserDialogInit() {
+    private void initializeMenu(View direction, View distance, View language) {
+        chooserDialogCallMethods.put(direction, new ChooserDialogInit() {
             @Override
             public void init() {
                 new ChooserDialog(MainActivity.this, getString(R.string.direction_display), directionDiplayTypes, new ChooserDialog.OnChooseListener() {
@@ -120,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        chooserDialogCallMethods.put(R.id.speed, new ChooserDialogInit() {
+        chooserDialogCallMethods.put(distance, new ChooserDialogInit() {
             @Override
             public void init() {
                 new ChooserDialog(MainActivity.this, getString(R.string.speed_display), speedDiplayTypes, new ChooserDialog.OnChooseListener() {
@@ -135,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        chooserDialogCallMethods.put(R.id.language, new ChooserDialogInit() {
+        chooserDialogCallMethods.put(language, new ChooserDialogInit() {
             @Override
             public void init() {
                 new ChooserDialog(MainActivity.this, getString(R.string.language), languageDiplayTypes, new ChooserDialog.OnChooseListener() {
@@ -220,6 +253,11 @@ public class MainActivity extends AppCompatActivity {
         MODE_OF_LANGUAGE = prefs.getInt(PREF_MODE_OF_LANGUAGE, 0);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
     private void prepareResultMethods() {
 
         speedResult = new ArrayList<Result>();
@@ -263,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Used for correct displaying of the vectors, prevents them from becoming too big and run out of screen
+     *
      * @param shipsSpeed
      * @param windSpeed
      * @param trueSpeed
@@ -393,8 +432,19 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e("listener", ""+v.getId());
                 pickerDialogCallMethods.get(v.getId()).init();
+            }
+        };
+
+        return listener;
+    }
+    private View.OnClickListener prepareMenuListener () {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("listener", ""+v.getId());
+                chooserDialogCallMethods.get(v).init();
             }
         };
 

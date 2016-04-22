@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-9964795cb13620cc05572a453bd592c210c78667.jar" />
-    </item>
-    <item
         jar="D:\Програмирование\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -16,11 +9,32 @@
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-91dce55f68a292cb5f2d67b25adc689fb4d00009.jar" />
     </item>
     <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-9964795cb13620cc05572a453bd592c210c78667.jar" />
+    </item>
+    <item
         jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\classes-25fa8907921b756a6aeaca569062387f7caf6f9b.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\libs\nineoldandroids-library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\nineoldandroids-library-2.4.0-660756a6e0e937a800a6a5adbae1d8d0d46e398f.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5e309b1df3051abebbfda31d1c80cd19bec617da">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\classes-0af6444f4acf7609a5c80b21d26408cd72f0d27c.jar" />
     </item>
     <item
         jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"

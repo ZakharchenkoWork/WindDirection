@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.example.mistery.winddirection.factorys.ChooserDialogInit;
 import com.example.mistery.winddirection.factorys.PickerDialogInit;
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 import com.znshadows.dialogs.ChooserDialog;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     TextView ownShipLabel;
     TextView rWindLabel;
     TextView tWindLabel;
-    TextView resultTextView;
+    ShimmerTextView resultTextView;
 
     ImageView shipsCourseVectorImage;
     ImageView windDirectionVectorImage;
@@ -93,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
         speedDiplayTypes = new String[]{getString(R.string.knots), getString(R.string.beaufort), getString(R.string.kph), getString(R.string.mps), getString(R.string.mph)};
         //languageDiplayTypes = new String[] {"...."}; Allready inserted
 
-        prepareResultMethods();
 
+        prepareSpeedResultMethods();
+        prepareDirectionResultMethods();
         DirectionPickerDialog.setInnerResultUnits(getString(R.string.degrees));
         SpeedPickerDialog.setInnerResultUnits(getString(R.string.knots));
 
@@ -113,12 +116,18 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = prepareOnClickListener();
         initialiseViews(listener);
         initializeDialogs();
-
+        initializeMenu();
         refreshGraphics();
-        // attach to current activity;
+
+
+
+    }
+    private void initializeMenu()
+    {
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.menu_background);
         resideMenu.attachToActivity(this);
+        resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 
         // create menu items;
         String titles[] = {getString(R.string.direction_display), getString(R.string.speed_display), getString(R.string.language)};
@@ -134,12 +143,10 @@ public class MainActivity extends AppCompatActivity {
         resideMenu.addMenuItem(distance, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
         ResideMenuItem language = new ResideMenuItem(this, icon[2], titles[2]);
         language.setOnClickListener(menuListener);
-        resideMenu.addMenuItem(language, ResideMenu.DIRECTION_RIGHT); // or  ResideMenu.DIRECTION_RIGHT
-        initializeMenu(direction,distance,language);
-
+        resideMenu.addMenuItem(language, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
+        prepareMenuActions(direction, distance, language);
     }
-
-    private void initializeMenu(View direction, View distance, View language) {
+    private void prepareMenuActions(View direction, View distance, View language) {
         chooserDialogCallMethods.put(direction, new ChooserDialogInit() {
             @Override
             public void init() {
@@ -258,7 +265,8 @@ public class MainActivity extends AppCompatActivity {
         return resideMenu.dispatchTouchEvent(ev);
     }
 
-    private void prepareResultMethods() {
+
+    private void prepareSpeedResultMethods() {
 
         speedResult = new ArrayList<Result>();
         speedResult.add(new SpeedResultKnots());
@@ -266,7 +274,8 @@ public class MainActivity extends AppCompatActivity {
         speedResult.add(new SpeedResultKPH());
         speedResult.add(new SpeedResultMPS());
         speedResult.add(new SpeedResultMPH());
-
+    }
+    private void prepareDirectionResultMethods() {
         directionResult = new ArrayList<Result>();
         directionResult.add(new DirectionResultDegrees());
         directionResult.add(new DirectionResultRumbs());
@@ -279,7 +288,11 @@ public class MainActivity extends AppCompatActivity {
         windDirection = (Button) findViewById(R.id.windDirection);
         windSpeed = (Button) findViewById(R.id.windSpeed);
 
-        resultTextView = (TextView) findViewById(R.id.result);
+        resultTextView = (ShimmerTextView) findViewById(R.id.result);
+        Shimmer shimerAnimation = new Shimmer();
+        shimerAnimation.setDuration(1500);
+        shimerAnimation.start(resultTextView);
+
         ownShipLabel = (TextView) findViewById(R.id.ownShipLabel);
         rWindLabel = (TextView) findViewById(R.id.rWindLabel);
         tWindLabel = (TextView) findViewById(R.id.tWindLabel);

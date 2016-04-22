@@ -116,6 +116,8 @@ public abstract class PickerDialog extends Dialog{
 
             integerNumberPickers[i] = new NumberPicker(context);
             integerNumberPickers[i].setOnValueChangedListener(onValueChangeListener);
+            //Hides keyboard when number picker is clicked
+            integerNumberPickers[i].setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
             pickersLayout.addView(integerNumberPickers[i]);
         }
             //if user needs to choose decimal value
@@ -127,6 +129,8 @@ public abstract class PickerDialog extends Dialog{
             for (int i = 0; i < decimalNumberPickers.length; i++) {
                 decimalNumberPickers[i] = new NumberPicker(context);
                 decimalNumberPickers[i].setOnValueChangedListener(onValueChangeListener);
+                //Hides keyboard when number picker is clicked
+                decimalNumberPickers[i].setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
                 pickersLayout.addView(decimalNumberPickers[i]);
             }
         }

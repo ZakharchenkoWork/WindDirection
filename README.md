@@ -7,7 +7,10 @@ Portfolio project. Intended to be used by seamans, to calculate true wind.
 ## Usage
 For any device with android 4.0+
 ## Screenshots
-
+![screen1](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot1.png)
+![screen2](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot2.png)
+![screen3](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot3.png)
+![screen4](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot4.png)
 ## Used materials
 [Shimmer effect for TextView.](https://github.com/RomainPiel/Shimmer-android)
 [Reside Menu for background menu](https://github.com/SpecialCyCi/AndroidResideMenu)

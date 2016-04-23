@@ -77,13 +77,17 @@ public class MainActivity extends AppCompatActivity {
     ImageView windDirectionArrowImage;
     ImageView resultArrowImage;
 
+    ResideMenu resideMenu;
+    CustomizableResideMenuItem direction;
+    CustomizableResideMenuItem distance;
+    CustomizableResideMenuItem language;
     float scale = 5;
     ArrayList<Result> speedResult;
     ArrayList<Result> directionResult;
     Map<Integer, PickerDialogInit> pickerDialogCallMethods = new HashMap<Integer, PickerDialogInit>();
     Map<View, ChooserDialogInit> chooserDialogCallMethods = new HashMap<View, ChooserDialogInit>();
 
-    ResideMenu resideMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         initializeDialogs();
         initializeMenu();
         refreshGraphics();
-
+        configureFont(projectTypeface);
 
 
     }
@@ -134,18 +138,19 @@ public class MainActivity extends AppCompatActivity {
         int icon[] = {R.drawable.menu_deg, R.drawable.menu_dist, R.drawable.menu_lang};
         View.OnClickListener menuListener = prepareMenuListener();
 
-        ResideMenuItem direction = new ResideMenuItem(this, icon[0], titles[0]);
+
+        direction = new CustomizableResideMenuItem(this, icon[0], titles[0]);
         direction.setOnClickListener(menuListener);
         resideMenu.addMenuItem(direction, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
-
-        ResideMenuItem distance = new ResideMenuItem(this, icon[1], titles[1]);
+        distance = new CustomizableResideMenuItem(this, icon[1], titles[1]);
         distance.setOnClickListener(menuListener);
         resideMenu.addMenuItem(distance, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
-        ResideMenuItem language = new ResideMenuItem(this, icon[2], titles[2]);
+        language = new CustomizableResideMenuItem(this, icon[2], titles[2]);
         language.setOnClickListener(menuListener);
         resideMenu.addMenuItem(language, ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
         prepareMenuActions(direction, distance, language);
     }
+
     private void prepareMenuActions(View direction, View distance, View language) {
         chooserDialogCallMethods.put(direction, new ChooserDialogInit() {
             @Override
@@ -251,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Loading and applying of previous settings of the app
+     * Loading and applying previous settings of the app
      */
     private void loadPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -260,14 +265,22 @@ public class MainActivity extends AppCompatActivity {
         MODE_OF_LANGUAGE = prefs.getInt(PREF_MODE_OF_LANGUAGE, 0);
     }
 
+    /**
+     * Handles the opening and closing of the resideMenu
+     * @param ev MotionEvent
+     * @return MotionEvent, back to system
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
     }
 
-
+    /**
+     * prepares display units for speed,
+     * for easier access according to settings
+     */
     private void prepareSpeedResultMethods() {
-
+        //correct displaying modes will be accessible from this array
         speedResult = new ArrayList<Result>();
         speedResult.add(new SpeedResultKnots());
         speedResult.add(new SpeedResultBeaufort());
@@ -275,14 +288,26 @@ public class MainActivity extends AppCompatActivity {
         speedResult.add(new SpeedResultMPS());
         speedResult.add(new SpeedResultMPH());
     }
+
+
+    /**
+     * prepares display units for Direction
+     * for easier access according to settings
+     */
     private void prepareDirectionResultMethods() {
+        //correct displaying modes will be accessible from this array
         directionResult = new ArrayList<Result>();
         directionResult.add(new DirectionResultDegrees());
         directionResult.add(new DirectionResultRumbs());
         directionResult.add(new DirectionResultAcurateRumbs());
     }
 
+    /**
+     * all GUI initialization will go here
+     * @param listener click listener for buttons
+     */
     private void initialiseViews(View.OnClickListener listener) {
+
         shipsCourse = (Button) findViewById(R.id.shipsCourse);
         shipsSpeed = (Button) findViewById(R.id.shipsSpeed);
         windDirection = (Button) findViewById(R.id.windDirection);
@@ -298,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         tWindLabel = (TextView) findViewById(R.id.tWindLabel);
 
         shipsCourseVectorImage = (ImageView) findViewById(R.id.shipsCourseVector);
-
         windDirectionVectorImage = (ImageView) findViewById(R.id.windDirectionVector);
         windDirectionArrowImage = (ImageView) findViewById(R.id.windDirectionArrow);
         resultVectorImage = (ImageView) findViewById(R.id.resultVector);
@@ -309,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         windDirection.setOnClickListener(listener);
         windSpeed.setOnClickListener(listener);
 
-        configureFont(projectTypeface);
+
     }
 
     /**
@@ -340,10 +364,10 @@ public class MainActivity extends AppCompatActivity {
      */
     public void refreshGraphics() {
         //in case the final vector is ready for displaying
-        if (shipCharacteristics.isReady() && windCharacteristics.isReady()) {
-            prepareTotalTrueWindGraphics();
-        } else {
+        if (!shipCharacteristics.isReady() && !windCharacteristics.isReady()) {
             resetTrueWindGraphics();
+        } else {
+            prepareTotalTrueWindGraphics();
         }
         // displaying of picture for the ships vector
         if (shipCharacteristics.isReady()) {
@@ -374,6 +398,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * resets pictures for true wind, must be used at the start of the app
+     */
     private void resetTrueWindGraphics() {
         refreshScale(shipCharacteristics.getSpeed(), windCharacteristics.getSpeed(), 0);
         resultVectorImage.setScaleY(1);
@@ -520,7 +547,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param lang language to set
      */
-    void changeLanguage(String lang) {
+    private void changeLanguage(String lang) {
 
         Configuration conf = new Configuration();
         conf.locale = prepareLanguage(lang);
@@ -529,14 +556,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Refreshes Activity
+     * Refreshes Activity , use in case of changes of the apps settings
      */
-    void restartActivity() {
+    private void restartActivity() {
         startActivity(new Intent(MainActivity.this, MainActivity.class));
         finish();
     }
 
-    void configureFont(Typeface typeface) {
+    /**
+     * pass the font from setting to this method to
+     * set this font to all of the Views that needs it
+     * @param typeface
+     */
+    private void configureFont(Typeface typeface) {
         shipsCourse.setTypeface(typeface);
         shipsSpeed.setTypeface(typeface);
         windDirection.setTypeface(typeface);
@@ -545,6 +577,10 @@ public class MainActivity extends AppCompatActivity {
         ownShipLabel.setTypeface(typeface);
         rWindLabel.setTypeface(typeface);
         tWindLabel.setTypeface(typeface);
+        direction.setTypeface(typeface);
+        distance.setTypeface(typeface);
+        language.setTypeface(typeface);
+
     }
 }
 

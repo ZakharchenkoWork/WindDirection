@@ -2,6 +2,7 @@ package com.example.mistery.winddirection;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.widget.TextView;
 
 import com.special.ResideMenu.ResideMenuItem;
@@ -38,7 +39,16 @@ public class CustomizableResideMenuItem extends ResideMenuItem {
             // getting value from this field which is reference to a TextView
             TextView tv = (TextView)privateTextView.get(this);
             //finaly setting the Typface
+
+
+            if (Build.VERSION.SDK_INT < 23) {
+                tv.setTextAppearance(getContext(), R.style.AppTheme);
+            }
+            else {
+                tv.setTextAppearance(R.style.AppTheme);
+            }
             tv.setTypeface(typeface);
+            tv.setTextColor(0xff000000);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

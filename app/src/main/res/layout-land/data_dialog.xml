@@ -3,13 +3,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center_horizontal">
-
+    android:background="@android:color/transparent"
+    android:gravity="center">
+<RelativeLayout
+    android:gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_background">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/result"
+
         android:id="@+id/pickerslayout"
         android:gravity="center_horizontal">
     </LinearLayout>
@@ -18,13 +24,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/done"
+        android:layout_below="@+id/pickerslayout"
         android:id="@+id/result" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/result"
         android:text="@string/done"
+        android:background="@drawable/dialog_button"
+        style="@style/green_button"
         android:id="@+id/done" />
+</RelativeLayout>
 </RelativeLayout>

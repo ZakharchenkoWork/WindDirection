@@ -9,4 +9,5 @@
     <color name="light_green">#467779</color>
     <color name="divider_color">#a8abb0</color>
     <color name="text_color">#ffffff</color>
+    <color name="transparent">#00ffffff</color>
 </resources>

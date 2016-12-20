@@ -27,4 +27,23 @@
     <string name="kph">KPH</string>
     <string name="mps">MPS</string>
     <string name="mph">MPH</string>
+
+    <string-array name="speedDiplayTypes">
+        <item>@string/knots</item>
+        <item>@string/beaufort</item>
+        <item>@string/kph</item>
+        <item>@string/mps</item>
+        <item>@string/mph</item>
+    </string-array>
+
+    <string-array name="directionDiplayTypes">
+        <item>@string/degs</item>
+        <item>@string/rumb</item>
+        <item>@string/rumbAccurate</item>
+    </string-array>
+    <string-array name="languageDiplayTypes">
+        <item>English</item>
+        <item>Русский</item>
+        <item>Tagalog</item>
+    </string-array>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient android:angle="270" android:endColor="#44000000" android:startColor="#88000000" />
+                    <padding android:top="@dimen/button_shadow_padding" android:left="@dimen/button_shadow_padding" />
+                    <corners android:radius="@dimen/shape_shadow_corners"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/purple" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

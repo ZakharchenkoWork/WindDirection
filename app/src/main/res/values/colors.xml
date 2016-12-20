@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_green_primary">#ff155558</color>
+    <color name="light_blue_primary">#FF72bbc4</color>
+    <color name="dark_green_secondary">#dc155558</color>
+    <color name="light_blue_secondary">#dc72bbc4</color>
+    <color name="purple">#3b414c</color>
+    <color name="orange">#eb8458</color>
+    <color name="light_green">#467779</color>
+    <color name="divider_color">#a8abb0</color>
+    <color name="text_color">#ffffff</color>
+</resources>

@@ -26,6 +26,6 @@
     <string name="language">Язык</string>
     <string name="degs">Градусы</string>
     <string name="kph">Км/ч</string>
-    <string name="mps">м.с</string>
+    <string name="mps">м/с</string>
     <string name="mph">Миль/ч</string>
 </resources>

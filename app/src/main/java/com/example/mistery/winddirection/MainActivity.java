@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     public static int MODE_OF_DIRECTION;
     public static int MODE_OF_LANGUAGE;
 
-    static String[] directionDiplayTypes;
-    static String[] speedDiplayTypes;
-    static String[] languageDiplayTypes = new String[]{"English", "Русский", "Tagalog"};
 
     static Characteristics shipCharacteristics = new Characteristics();
     static Characteristics windCharacteristics = new Characteristics();
@@ -88,16 +85,12 @@ public class MainActivity extends AppCompatActivity {
     Map<View, ChooserDialogInit> chooserDialogCallMethods = new HashMap<View, ChooserDialogInit>();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-        directionDiplayTypes = new String[]{getString(R.string.degs), getString(R.string.rumb), getString(R.string.rumbAccurate)};
-        speedDiplayTypes = new String[]{getString(R.string.knots), getString(R.string.beaufort), getString(R.string.kph), getString(R.string.mps), getString(R.string.mph)};
-        //languageDiplayTypes = new String[] {"...."}; Allready inserted
+        setContentView(R.layout.main);
+        /*Intent intent = new Intent(this, Test.class);
+        startActivity(intent);*/
 
 
         prepareSpeedResultMethods();
@@ -107,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadPreferences();
-        if (!getResources().getConfiguration().locale.equals(prepareLanguage(languageDiplayTypes[MODE_OF_LANGUAGE]))) {
-            changeLanguage(languageDiplayTypes[MODE_OF_LANGUAGE]);
+        if (!getResources().getConfiguration().locale.equals(prepareLanguage(getResources().getStringArray(R.array.languageDiplayTypes)[MODE_OF_LANGUAGE]))) {
+            changeLanguage(getResources().getStringArray(R.array.languageDiplayTypes)[MODE_OF_LANGUAGE]);
         }
 
         if (MODE_OF_LANGUAGE == 1) {
@@ -126,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void initializeMenu()
-    {
+
+    private void initializeMenu() {
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.menu_background);
         resideMenu.attachToActivity(this);
@@ -155,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         chooserDialogCallMethods.put(direction, new ChooserDialogInit() {
             @Override
             public void init() {
-                new ChooserDialog(MainActivity.this, getString(R.string.direction_display), directionDiplayTypes, new ChooserDialog.OnChooseListener() {
+                new ChooserDialog(MainActivity.this, getString(R.string.direction_display), getResources().getStringArray(R.array.directionDiplayTypes), new ChooserDialog.OnChooseListener() {
                     @Override
                     public void onChoose(int result) {
                         MODE_OF_DIRECTION = result;
@@ -168,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         chooserDialogCallMethods.put(distance, new ChooserDialogInit() {
             @Override
             public void init() {
-                new ChooserDialog(MainActivity.this, getString(R.string.speed_display), speedDiplayTypes, new ChooserDialog.OnChooseListener() {
+                new ChooserDialog(MainActivity.this, getString(R.string.speed_display), getResources().getStringArray(R.array.speedDiplayTypes), new ChooserDialog.OnChooseListener() {
                     @Override
                     public void onChoose(int result) {
 
@@ -183,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         chooserDialogCallMethods.put(language, new ChooserDialogInit() {
             @Override
             public void init() {
-                new ChooserDialog(MainActivity.this, getString(R.string.language), languageDiplayTypes, new ChooserDialog.OnChooseListener() {
+                new ChooserDialog(MainActivity.this, getString(R.string.language), getResources().getStringArray(R.array.languageDiplayTypes), new ChooserDialog.OnChooseListener() {
                     @Override
                     public void onChoose(int result) {
                         Log.i("Menu", "choosen " + result);
@@ -197,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeDialogs() {
-        pickerDialogCallMethods.put(R.id.shipsCourse, new PickerDialogInit() {
+        pickerDialogCallMethods.put(R.id.shipsCourseButton, new PickerDialogInit() {
             @Override
             public void init() {
                 new DirectionPickerDialog(MainActivity.this, getString(R.string.setSCourse), shipCharacteristics.getCourse())
@@ -211,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        pickerDialogCallMethods.put(R.id.shipsSpeed, new PickerDialogInit() {
+        pickerDialogCallMethods.put(R.id.shipsSpeedButton, new PickerDialogInit() {
             @Override
             public void init() {
                 new SpeedPickerDialog(MainActivity.this, getString(R.string.setSSpeed), shipCharacteristics.getSpeed())
@@ -225,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        pickerDialogCallMethods.put(R.id.windDirection, new PickerDialogInit() {
+        pickerDialogCallMethods.put(R.id.relativeWindDirectionButton, new PickerDialogInit() {
             @Override
             public void init() {
                 new DirectionPickerDialog(MainActivity.this, getString(R.string.setWCourse), windCharacteristics.getCourse())
@@ -239,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        pickerDialogCallMethods.put(R.id.windSpeed, new PickerDialogInit() {
+        pickerDialogCallMethods.put(R.id.relativeWindSpeedButton, new PickerDialogInit() {
             @Override
             public void init() {
                 new SpeedPickerDialog(MainActivity.this, getString(R.string.setWSpeed), windCharacteristics.getSpeed())
@@ -267,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Handles the opening and closing of the resideMenu
+     *
      * @param ev MotionEvent
      * @return MotionEvent, back to system
      */
@@ -304,14 +298,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * all GUI initialization will go here
+     *
      * @param listener click listener for buttons
      */
     private void initialiseViews(View.OnClickListener listener) {
 
-        shipsCourse = (Button) findViewById(R.id.shipsCourse);
-        shipsSpeed = (Button) findViewById(R.id.shipsSpeed);
-        windDirection = (Button) findViewById(R.id.windDirection);
-        windSpeed = (Button) findViewById(R.id.windSpeed);
+        shipsCourse = (Button) findViewById(R.id.shipsCourseButton);
+        shipsSpeed = (Button) findViewById(R.id.shipsSpeedButton);
+        windDirection = (Button) findViewById(R.id.relativeWindDirectionButton);
+        windSpeed = (Button) findViewById(R.id.relativeWindSpeedButton);
 
         resultTextView = (ShimmerTextView) findViewById(R.id.result);
         Shimmer shimerAnimation = new Shimmer();
@@ -319,8 +314,8 @@ public class MainActivity extends AppCompatActivity {
         shimerAnimation.start(resultTextView);
 
         ownShipLabel = (TextView) findViewById(R.id.ownShipLabel);
-        rWindLabel = (TextView) findViewById(R.id.rWindLabel);
-        tWindLabel = (TextView) findViewById(R.id.tWindLabel);
+        rWindLabel = (TextView) findViewById(R.id.relativeWindLabel);
+        tWindLabel = (TextView) findViewById(R.id.trueWindLabel);
 
         shipsCourseVectorImage = (ImageView) findViewById(R.id.shipsCourseVector);
         windDirectionVectorImage = (ImageView) findViewById(R.id.windDirectionVector);
@@ -425,13 +420,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void prepareRelativeWindSpeedGraphics() {
         windDirectionVectorImage.setScaleY(windCharacteristics.getSpeed() / scale);
-        windSpeed.setText(getString(R.string.rwSpeed) + ": " + speedResult.get(0).getResult(windCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+        TextView relativeWindSpeedLabel = (TextView) findViewById(R.id.relativeWindSpeedLabel);
+        relativeWindSpeedLabel.setText(speedResult.get(0).getResult(windCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
     }
 
     private void prepareRelativeWindDirectionGraphics() {
         windDirectionVectorImage.setRotation(windCharacteristics.getCourse());
         windDirectionArrowImage.setRotation(windCharacteristics.getCourse());
-        windDirection.setText(getString(R.string.rwCourse) + ": " + directionResult.get(0).getResult(windCharacteristics.getCourse(), getString(R.string.degrees)));
+        TextView relativeWindDirectionLabel = (TextView) findViewById(R.id.relativeWindDirectionLabel);
+        relativeWindDirectionLabel.setText(directionResult.get(0).getResult(windCharacteristics.getCourse(), getString(R.string.degrees)));
     }
 
     private void prepareTotalRelativeWindGraphics() {
@@ -441,12 +438,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void prepareShipSpeedGraphics() {
         shipsCourseVectorImage.setScaleY(shipCharacteristics.getSpeed() / scale);
-        shipsSpeed.setText(getString(R.string.sSpeed) + ": " + speedResult.get(0).getResult(shipCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
+        TextView shipsSpeedLabel = (TextView) findViewById(R.id.shipsSpeedLabel);
+        shipsSpeedLabel.setText(speedResult.get(0).getResult(shipCharacteristics.getSpeed(), getString(R.string.shortForKnots)));
     }
 
     private void prepareShipCourseGraphics() {
         shipsCourseVectorImage.setRotation(shipCharacteristics.getCourse());
-        shipsCourse.setText(getString(R.string.sCourse) + ": " + directionResult.get(0).getResult(shipCharacteristics.getCourse(), getString(R.string.degrees)));
+        TextView shipsCourseLabel = (TextView) findViewById(R.id.shipsCourseLabel);
+        shipsCourseLabel.setText(directionResult.get(0).getResult(shipCharacteristics.getCourse(), getString(R.string.degrees)));
     }
 
     public String getResultString(Characteristics trueWind, int modeOfDirection, int modeOfSpeed) {
@@ -461,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
 
         resultString += ", " + getString(R.string.speed) + ": ";
 
-        resultString += speedResult.get(modeOfSpeed).getResult(trueWind.getSpeed(), speedDiplayTypes[modeOfSpeed]);
+        resultString += speedResult.get(modeOfSpeed).getResult(trueWind.getSpeed(), getResources().getStringArray(R.array.speedDiplayTypes)[modeOfSpeed]);
 
         return resultString;
 
@@ -472,18 +471,19 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("listener", ""+v.getId());
+                Log.e("listener", "" + v.getId());
                 pickerDialogCallMethods.get(v.getId()).init();
             }
         };
 
         return listener;
     }
-    private View.OnClickListener prepareMenuListener () {
+
+    private View.OnClickListener prepareMenuListener() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("listener", ""+v.getId());
+                Log.e("listener", "" + v.getId());
                 chooserDialogCallMethods.get(v).init();
             }
         };
@@ -529,14 +529,14 @@ public class MainActivity extends AppCompatActivity {
     Locale prepareLanguage(String lang) {
         Locale locale = null;
 
-        if (lang.equals(languageDiplayTypes[0])) {
+        if (lang.equals(getResources().getStringArray(R.array.languageDiplayTypes)[0])) {
             locale = new Locale("en");
         }
-        if (lang.equals(languageDiplayTypes[1])) {
+        if (lang.equals(getResources().getStringArray(R.array.languageDiplayTypes)[1])) {
             locale = new Locale("ru");
 
         }
-        if (lang.equals(languageDiplayTypes[2])) {
+        if (lang.equals(getResources().getStringArray(R.array.languageDiplayTypes)[2])) {
             locale = new Locale("tl", "PH");
         }
         return locale;
@@ -566,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * pass the font from setting to this method to
      * set this font to all of the Views that needs it
+     *
      * @param typeface
      */
     private void configureFont(Typeface typeface) {

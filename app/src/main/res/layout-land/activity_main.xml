@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/secondary_background"
+    android:background="@drawable/bkgr"
     tools:context=".MainActivity">
 
 
@@ -24,14 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sCourse"
-                style="@style/ButtonTheme"
+                android:theme="@style/ButtonTheme"
                 android:id="@+id/shipsCourse" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sSpeed"
-                style="@style/ButtonTheme"
+                android:theme="@style/ButtonTheme"
                 android:id="@+id/shipsSpeed" />
         </LinearLayout>
         <RelativeLayout
@@ -113,14 +113,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/rwCourse"
-                style="@style/ButtonTheme"
+                android:theme="@style/ButtonTheme"
                 android:id="@+id/windDirection" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/rwSpeed"
-                style="@style/ButtonTheme"
+                android:theme="@style/ButtonTheme"
                 android:id="@+id/windSpeed" />
         </LinearLayout>
     </LinearLayout>

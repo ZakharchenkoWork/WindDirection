@@ -1,4 +1,4 @@
-
+Currently landscape mode is causing a crash, due to major changes in design. Will be fixed this week.
 
 <snippet>
   <content>

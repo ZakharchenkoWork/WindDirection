@@ -2,18 +2,32 @@
 <items version="2" >
 
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.romainpiel.shimmer\library\1.4.0\jars\classes.jar"
+        jar="C:\Users\kostya\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_7d506dbe29d3234b6043418c66a254fa1c4fae21.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.romainpiel.shimmer\library\1.4.0\jars\classes.jar"
+        jumboMode="false"
         revision="23.0.1"
         sha1="605019d3e4be636f5dd74c83d05198994e3a2ce9">
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.romainpiel.shimmer-library-1.4.0_d9218e473e89534c3e452706b0db1702c0482fc1.jar" />
     </item>
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jar="C:\Users\kostya\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_7d506dbe29d3234b6043418c66a254fa1c4fae21.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.romainpiel.shimmer\library\1.4.0\jars\classes.jar"
         jumboMode="true"
         revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_25fa8907921b756a6aeaca569062387f7caf6f9b.jar" />
+        sha1="605019d3e4be636f5dd74c83d05198994e3a2ce9">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.romainpiel.shimmer-library-1.4.0_d9218e473e89534c3e452706b0db1702c0482fc1.jar" />
     </item>
     <item
         jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\libs\nineoldandroids-library-2.4.0.jar"
@@ -23,18 +37,39 @@
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\nineoldandroids-library-2.4.0_660756a6e0e937a800a6a5adbae1d8d0d46e398f.jar" />
     </item>
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_3a001d3af956bdcefc126d73683b00eb1a451bbe.jar" />
-    </item>
-    <item
         jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="true"
         revision="23.0.1"
         sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_9964795cb13620cc05572a453bd592c210c78667.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_9964795cb13620cc05572a453bd592c210c78667.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\libs\nineoldandroids-library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\nineoldandroids-library-2.4.0_660756a6e0e937a800a6a5adbae1d8d0d46e398f.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_3a001d3af956bdcefc126d73683b00eb1a451bbe.jar" />
+    </item>
+    <item
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_3a001d3af956bdcefc126d73683b00eb1a451bbe.jar" />
     </item>
     <item
         jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\classes.jar"
@@ -44,25 +79,25 @@
         <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.specyci-residemenu-1.6_0af6444f4acf7609a5c80b21d26408cd72f0d27c.jar" />
     </item>
     <item
-        jar="C:\Users\kostya\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
-        jumboMode="true"
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.specyci\residemenu\1.6\jars\classes.jar"
+        jumboMode="false"
         revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_7d506dbe29d3234b6043418c66a254fa1c4fae21.jar" />
+        sha1="5e309b1df3051abebbfda31d1c80cd19bec617da">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.specyci-residemenu-1.6_0af6444f4acf7609a5c80b21d26408cd72f0d27c.jar" />
     </item>
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
         revision="23.0.1"
-        sha1="814e8cb8623274fe633482b76580bed61d83e4c1">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_a50b0cdf2f8747d0d53567fc1ee05c7f5cc5a6b8.jar" />
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_25fa8907921b756a6aeaca569062387f7caf6f9b.jar" />
     </item>
     <item
-        jar="D:\Programming\WindDirection\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="D:\Programming\WindDirection\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
         jumboMode="true"
         revision="23.0.1"
-        sha1="a481885adb924619b594668bb8f5499ef1503262">
-        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\instant-run_a1eae7381cb644bfc62fb8f7e7c8b9ff9687e494.jar" />
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Programming\WindDirection\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_25fa8907921b756a6aeaca569062387f7caf6f9b.jar" />
     </item>
 
 </items>

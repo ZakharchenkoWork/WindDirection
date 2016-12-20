@@ -1,18 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple">
+    android:background="@color/purple"
+    android:weightSum="1"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="@drawable/backgrund_for_graphics"
+        >
 
+        <TextView
+            android:id="@+id/ownShipLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_label_main"
+            android:text="@string/ownShip"
+            android:layout_marginTop="@dimen/minimal_vertical_margin"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:background="@drawable/label_purple"
+            />
+        <TextView
+            android:id="@+id/relativeWindLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_label_main"
+            android:text="@string/rWind"
+            android:layout_below="@+id/ownShipLabel"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:background="@drawable/label_dark_green"
+            />
+        <TextView
+            android:id="@+id/trueWindLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_label_main"
+            android:text="@string/tWind"
+            android:layout_below="@+id/relativeWindLabel"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:background="@drawable/label_orange" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:gravity="center"
+            android:layout_below="@id/relativeWindLabel">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/roze" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:id="@+id/shipsCourseVector"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:id="@+id/windDirectionVector"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:id="@+id/windDirectionArrow"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:id="@+id/resultVector"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:id="@+id/resultArrow"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
     <LinearLayout
         android:id="@+id/fullDataContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="0dp"
         android:layout_marginBottom="20dp"
+        android:layout_weight="0.5"
         android:layout_marginEnd="@dimen/container_side_margin"
         android:layout_marginLeft="@dimen/container_side_margin"
         android:layout_marginRight="@dimen/container_side_margin"
@@ -123,86 +206,5 @@
 
             android:text="@string/rwSpeed" />
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/topContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/fullDataContainer"
-        android:background="@drawable/backgrund_for_graphics"
-        >
 
-        <TextView
-            android:id="@+id/ownShipLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_label_main"
-            android:text="@string/ownShip"
-            android:layout_marginTop="@dimen/minimal_vertical_margin"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
-            android:background="@drawable/label_purple"
-            />
-        <TextView
-            android:id="@+id/relativeWindLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_label_main"
-            android:text="@string/rWind"
-            android:layout_below="@+id/ownShipLabel"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
-            android:background="@drawable/label_dark_green"
-            />
-        <TextView
-            android:id="@+id/trueWindLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_label_main"
-            android:text="@string/tWind"
-            android:layout_below="@+id/relativeWindLabel"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
-            android:background="@drawable/label_orange" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
-            android:gravity="center"
-            android:layout_below="@id/relativeWindLabel">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:src="@drawable/roze" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/shipsCourseVector"
-                />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/windDirectionVector"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/windDirectionArrow"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/resultVector"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/resultArrow"
-                />
-        </RelativeLayout>
-
-    </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

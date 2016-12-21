@@ -1,6 +1,3 @@
-# Warning
-Currently landscape mode is causing a crash, due to major changes in design. Will be fixed this week.
-
 <snippet>
   <content>
 # Wind Direction
@@ -12,6 +9,10 @@ For any device with android 4.0+
 ![screen2](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot2.png)
 ![screen3](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot3.png)
 ![screen4](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot4.png)
+![screen5](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot5.png)
+![screen6](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot6.png)
+![screen7](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot7.png)
+![screen8](https://github.com/ZakharchenkoWork/WindDirection/blob/master/screenshots/Screenshot8.png)
 ## Used materials
 [Shimmer effect for TextView.](https://github.com/RomainPiel/Shimmer-android)
 [Reside Menu for background menu](https://github.com/SpecialCyCi/AndroidResideMenu)

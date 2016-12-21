@@ -99,8 +99,8 @@
             android:id="@+id/resultContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/label_purple">

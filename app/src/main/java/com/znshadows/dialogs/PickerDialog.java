@@ -2,7 +2,9 @@ package com.znshadows.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,12 +12,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.mistery.winddirection.R;
 
+import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
 /**
@@ -55,9 +59,10 @@ public abstract class PickerDialog extends Dialog{
         final NumberPicker[] decimalNumberPickers = new NumberPicker[decimalNumberPickersCount];
         //initialisation of number pickers and inserting them into the layout
         initializeNumberPickers(context, pickersLayout, integerNumberPickers, decimalNumberPickers);
-
+        //prepare result view for styling
+        TextView result = (TextView) findViewById(R.id.result);
         //getting minimum and maximum numbers of pickers if overrided by subclass
-        setMinMaxNumberForPickers(integerNumberPickers, decimalNumberPickers);
+        setUpStyle(integerNumberPickers, decimalNumberPickers, result);
 
         //preparing start value for number pickers, value must be separated by digits and stored to an array
         //we use separate arrays for integer part and decimal part of value
@@ -93,7 +98,7 @@ public abstract class PickerDialog extends Dialog{
      * @see #onNumberPickersValuesChange(NumberPicker[], NumberPicker[])
      * @see #setValueForNumberPickers(NumberPicker[], NumberPicker[], int[], int[])
      */
-    abstract protected void setMinMaxNumberForPickers(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers);
+    abstract protected void setUpStyle(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers, TextView result);
 
     /**
      * Preparing layout for number pickers, adds decimal point if required, setting listeners and putting all together
@@ -143,7 +148,7 @@ public abstract class PickerDialog extends Dialog{
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
      * @param integerValue array of digits from integer part of value
      * @param decimalValue array of digits from decimal part of value
-     * @see #setMinMaxNumberForPickers(NumberPicker[], NumberPicker[])
+     * @see #setUpStyle(NumberPicker[], NumberPicker[], TextView)
      * @see #onNumberPickersValuesChange(NumberPicker[], NumberPicker[])
      */
     private void setValueForNumberPickers(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers, @NonNull int[] integerValue, @NonNull int[] decimalValue) {
@@ -256,7 +261,7 @@ public abstract class PickerDialog extends Dialog{
      * Note: called after min-max value is set and after starting value is set, all additional adjustment must go here
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
-     * @see #setMinMaxNumberForPickers(NumberPicker[], NumberPicker[])
+     * @see #setUpStyle(NumberPicker[], NumberPicker[], TextView)
      * @see #setValueForNumberPickers(NumberPicker[], NumberPicker[], int[], int[])
      */
     @CallSuper
@@ -308,10 +313,37 @@ public abstract class PickerDialog extends Dialog{
     }
 
 
-    /**
-     *
-     */
+
     public interface OnDoneListener{
     public void onDone(float result);
+    }
+
+    protected void setNumberPickerTextColor(NumberPicker numberPicker, int color)
+    {
+        final int count = numberPicker.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = numberPicker.getChildAt(i);
+            if(child instanceof EditText){
+                try{
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText)child).setTextColor(color);
+                    numberPicker.invalidate();
+
+                }
+                catch(NoSuchFieldException e){
+                    Log.w("setNumberPickerTextClr", e);
+                }
+                catch(IllegalAccessException e){
+                    Log.w("setNumberPickerTextClr", e);
+                }
+                catch(IllegalArgumentException e){
+                    Log.w("setNumberPickerTextClr", e);
+                }
+            }
+        }
+
     }
 }

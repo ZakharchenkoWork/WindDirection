@@ -41,7 +41,7 @@ public class ChooserDialog extends Dialog{
         ListView listView = (ListView) findViewById(R.id.listView);
 
             //filling up list view
-        ArrayAdapter adapter = new ArrayAdapter(ctx, android.R.layout.simple_list_item_1, elementsList);
+        ArrayAdapter adapter = new ArrayAdapter(ctx, R.layout.list_item_view, elementsList);
         listView.setAdapter(adapter);
 
             //listView listener will call our custom listener

@@ -1,7 +1,9 @@
 package com.example.mistery.winddirection;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.znshadows.dialogs.PickerDialog;
 
@@ -22,18 +24,30 @@ public class SpeedPickerDialog extends PickerDialog {
     }
 
     @Override
-    protected void setMinMaxNumberForPickers(NumberPicker[] integerNumberPickers, NumberPicker[] decimalNumberPickers) {
+    protected void setUpStyle(NumberPicker[] integerNumberPickers, NumberPicker[] decimalNumberPickers, TextView result) {
         //all pickers will be from 0 to 9
+        int color;
+        if (Build.VERSION.SDK_INT < 23) {
+            color = getContext().getResources().getColor(R.color.text_color);
+        } else {
+            color = getContext().getColor(R.color.text_color);
+        }
+        result.setTextColor(color);
+
         for (int i = 0; i < integerNumberPickers.length; i++)
         {
             integerNumberPickers[i].setMinValue(0);
             integerNumberPickers[i].setMaxValue(9);
+            setNumberPickerTextColor(integerNumberPickers[i], color);
         }
         for (int i = 0; i < decimalNumberPickers.length; i++)
         {
             decimalNumberPickers[i].setMinValue(0);
             decimalNumberPickers[i].setMaxValue(9);
+            setNumberPickerTextColor(decimalNumberPickers[i], color);
         }
+
+
     }
 
 

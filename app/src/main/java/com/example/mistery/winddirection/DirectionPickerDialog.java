@@ -1,7 +1,9 @@
 package com.example.mistery.winddirection;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.znshadows.auxilary.Utils;
 import com.znshadows.dialogs.PickerDialog;
@@ -21,7 +23,7 @@ public class DirectionPickerDialog extends PickerDialog {
     }
 
     @Override
-    protected void setMinMaxNumberForPickers(NumberPicker[] integerNumberPickers, NumberPicker[] decimalNumberPickers) {
+    protected void setUpStyle(NumberPicker[] integerNumberPickers, NumberPicker[] decimalNumberPickers, TextView result) {
         //max value will be 359 degrees,
         integerNumberPickers[0].setMinValue(0);
         integerNumberPickers[0].setMaxValue(3);
@@ -36,6 +38,21 @@ public class DirectionPickerDialog extends PickerDialog {
 
         integerNumberPickers[2].setMinValue(0);
         integerNumberPickers[2].setMaxValue(9);
+
+        int color;
+        if (Build.VERSION.SDK_INT < 23) {
+            color = getContext().getResources().getColor(R.color.text_color);
+        } else {
+            color = getContext().getColor(R.color.text_color);
+        }
+        result.setTextColor(color);
+        for (int i = 0; i < integerNumberPickers.length; i++) {
+            setNumberPickerTextColor(integerNumberPickers[i], color);
+        }
+
+
+
+
     }
 
     /**

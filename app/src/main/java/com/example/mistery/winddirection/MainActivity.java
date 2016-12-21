@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         initializeDialogs();
         initializeMenu();
         refreshGraphics();
-        configureFont(projectTypeface);
+        configureMenu();
 
 
     }
@@ -564,24 +565,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * pass the font from setting to this method to
-     * set this font to all of the Views that needs it
-     *
-     * @param typeface
+     * Use to configure Menu items style
      */
-    private void configureFont(Typeface typeface) {
-        shipsCourse.setTypeface(typeface);
-        shipsSpeed.setTypeface(typeface);
-        windDirection.setTypeface(typeface);
-        windSpeed.setTypeface(typeface);
-        resultTextView.setTypeface(typeface);
-        ownShipLabel.setTypeface(typeface);
-        rWindLabel.setTypeface(typeface);
-        tWindLabel.setTypeface(typeface);
-        direction.setTypeface(typeface);
-        distance.setTypeface(typeface);
-        language.setTypeface(typeface);
+    private void configureMenu() {
+        configureMenuTextView(direction.getTextView());
+        configureMenuTextView(distance.getTextView());
+        configureMenuTextView(language.getTextView());
+    }
 
+    /**
+     * method used to bring Menu Items to the same style
+     * @param tv
+     */
+    private void configureMenuTextView(TextView tv){
+
+        if (tv == null) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT < 23) {
+            tv.setTextAppearance(this, R.style.AppTheme);
+            tv.setTextColor(getResources().getColor(R.color.text_color));
+        } else {
+            tv.setTextColor(getColor(R.color.text_color));
+            tv.setTextAppearance(R.style.AppTheme);
+        }
+
+        tv.setMaxLines(1);
+        tv.setTextSize(getResources().getDimension(R.dimen.text_size_normal) / getResources().getDisplayMetrics().density);
     }
 }
 

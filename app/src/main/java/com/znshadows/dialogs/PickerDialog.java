@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,13 +20,15 @@ import android.widget.TextView;
 
 import com.example.mistery.winddirection.R;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
 /**
  * Created by MisterY on 28.12.2015.
  */
-public abstract class PickerDialog extends Dialog{
+public abstract class PickerDialog extends Dialog {
 
 
     protected OnDoneListener onDoneListener = new OnDoneListener() {
@@ -41,20 +44,24 @@ public abstract class PickerDialog extends Dialog{
         super(context);
 
         //Prevents dialog to be shown multiple times, as we need only one instance of dialog
-        if(lastInstance != null && lastInstance.isShowing())
-        {
+        if (lastInstance != null && lastInstance.isShowing()) {
             lastInstance.dismiss();
             lastInstance = this;
         }
-
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         //simple layout for this dialog
         setContentView(R.layout.data_dialog);
-        //setting title
-        setTitle(dialogTitle);
-        //prepare layout for our dialog
 
+        // setting custom title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.dialog_title_bar);
+
+        //setting title
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText(dialogTitle);
+
+        //prepare layout for our dialog
         LinearLayout pickersLayout = (LinearLayout) findViewById(R.id.pickerslayout);
-               //creating number pickers for our amount of digits
+        //creating number pickers for our amount of digits
         final NumberPicker[] integerNumberPickers = new NumberPicker[integerNumberPickersCount];
         final NumberPicker[] decimalNumberPickers = new NumberPicker[decimalNumberPickersCount];
         //initialisation of number pickers and inserting them into the layout
@@ -70,10 +77,10 @@ public abstract class PickerDialog extends Dialog{
         int[] decialDigits = prepareValuesForPickers(startValue, decimalNumberPickersCount, true);
 
         //change value shown by number pickers to match the start value
-        setValueForNumberPickers(integerNumberPickers, decimalNumberPickers, integerDigits,decialDigits);
+        setValueForNumberPickers(integerNumberPickers, decimalNumberPickers, integerDigits, decialDigits);
 
         //refresh the result text view to show correct value
-        onNumberPickersValuesChange(integerNumberPickers,decimalNumberPickers);
+        onNumberPickersValuesChange(integerNumberPickers, decimalNumberPickers);
 
         // preparing listener to the done button
         Button done = (Button) findViewById(R.id.done);
@@ -93,6 +100,7 @@ public abstract class PickerDialog extends Dialog{
      * Owerride in subclass to set starting minimum and maximum values to integer and decimal number pickers
      * Note: called before start value is set. And right after value is set, method onNumberPickersValuesChange() is called,
      * to check if any additional adjustment required.
+     *
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
      * @see #onNumberPickersValuesChange(NumberPicker[], NumberPicker[])
@@ -102,21 +110,22 @@ public abstract class PickerDialog extends Dialog{
 
     /**
      * Preparing layout for number pickers, adds decimal point if required, setting listeners and putting all together
-     * @param context context of an App
+     *
+     * @param context              context of an App
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
-     * @param pickersLayout LinearLayout in which NumberPickers will be inserted
+     * @param pickersLayout        LinearLayout in which NumberPickers will be inserted
      */
     private void initializeNumberPickers(@NonNull Context context, @NonNull LinearLayout pickersLayout, @NonNull final NumberPicker[] integerNumberPickers, @NonNull final NumberPicker[] decimalNumberPickers) {
-            //preparing listener for pickers
+        //preparing listener for pickers
         NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    //when any picker changes it's value, it calls general method for all listeners in this dialog
+                //when any picker changes it's value, it calls general method for all listeners in this dialog
                 onNumberPickersValuesChange(integerNumberPickers, decimalNumberPickers);
             }
         };
-            //preparing all integer number pickers
+        //preparing all integer number pickers
         for (int i = 0; i < integerNumberPickers.length; i++) {
 
             integerNumberPickers[i] = new NumberPicker(context);
@@ -125,12 +134,12 @@ public abstract class PickerDialog extends Dialog{
             integerNumberPickers[i].setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
             pickersLayout.addView(integerNumberPickers[i]);
         }
-            //if user needs to choose decimal value
+        //if user needs to choose decimal value
         if (decimalNumberPickers.length > 0) {
 
-                //adding point between number pickers to make it more look like float
+            //adding point between number pickers to make it more look like float
             pickersLayout.addView(getDecimalView(context));
-                //preparing all decimal number pickers
+            //preparing all decimal number pickers
             for (int i = 0; i < decimalNumberPickers.length; i++) {
                 decimalNumberPickers[i] = new NumberPicker(context);
                 decimalNumberPickers[i].setOnValueChangedListener(onValueChangeListener);
@@ -144,23 +153,24 @@ public abstract class PickerDialog extends Dialog{
     /**
      * Sets values to number pickers.
      * Note: called after Min-max value is set and just before method onNumberPickersValuesChange() is called
+     *
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
-     * @param integerValue array of digits from integer part of value
-     * @param decimalValue array of digits from decimal part of value
+     * @param integerValue         array of digits from integer part of value
+     * @param decimalValue         array of digits from decimal part of value
      * @see #setUpStyle(NumberPicker[], NumberPicker[], TextView)
      * @see #onNumberPickersValuesChange(NumberPicker[], NumberPicker[])
      */
     private void setValueForNumberPickers(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers, @NonNull int[] integerValue, @NonNull int[] decimalValue) {
 
-                //for every number picker set digit from array
+        //for every number picker set digit from array
         for (int i = 0; i < integerNumberPickers.length; i++) {
             integerNumberPickers[i].setValue(integerValue[i]);
         }
 
-            //if we have decimal value
-        if(decimalNumberPickers.length > 0) {
-                //for every number picker set digit from array
+        //if we have decimal value
+        if (decimalNumberPickers.length > 0) {
+            //for every number picker set digit from array
             for (int i = 0; i < decimalNumberPickers.length; i++) {
 
                 decimalNumberPickers[i].setValue(decimalValue[i]);
@@ -170,42 +180,43 @@ public abstract class PickerDialog extends Dialog{
 
     /**
      * Collects values from number pickers and assemble it to float
+     *
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose part of value
      * @return assembled value, collected from all integer and decimal NumberPickers
      */
     protected float collect(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers) {
         String result = "";
-            //gathering values from all number pickers to string
+        //gathering values from all number pickers to string
         for (int i = 0; i < integerNumberPickers.length; i++) {
             result += integerNumberPickers[i].getValue();
         }
-            // if we have decimal number pickers
+        // if we have decimal number pickers
         if (decimalNumberPickers.length > 0) {
-                //to make value in string look like decimal
+            //to make value in string look like decimal
             result += ".";
-                //collecting decimal part from pickers
+            //collecting decimal part from pickers
             for (int i = 0; i < decimalNumberPickers.length; i++) {
                 result += decimalNumberPickers[i].getValue();
             }
         }
-            //convert string to float
+        //convert string to float
         return Float.parseFloat(result);
     }
 
     /**
-     *
      * Normally hould be used to set value for number pickers calling method setValueForNumberPickers()
-     * @param value float to be converted to digits
+     *
+     * @param value              float to be converted to digits
      * @param numberPickersCount amount of number pickers for which this value is converted, returned array will have same length
-     * @param isForDecimalPart true if this method called to get only decimal part of value false if only integer part
+     * @param isForDecimalPart   true if this method called to get only decimal part of value false if only integer part
      * @return array of digits based on value
      */
     private int[] prepareValuesForPickers(float value, int numberPickersCount, boolean isForDecimalPart) {
 
         int[] values = new int[numberPickersCount];
         String digits = "";
-        if(!isForDecimalPart) {
+        if (!isForDecimalPart) {
             digits = new String("" + value).split(Pattern.quote("."))[0];
         } else {
             digits = new String("" + value).split(Pattern.quote("."))[1];
@@ -219,6 +230,7 @@ public abstract class PickerDialog extends Dialog{
 
     /**
      * Use to get TextView with point which should be inserted inside LinearLayout between number pickers to separate integer value from decimal
+     *
      * @param context this apps context
      * @return TextView representing decimal point between number pickers
      */
@@ -235,30 +247,32 @@ public abstract class PickerDialog extends Dialog{
         decimal.setGravity(Gravity.CENTER_VERTICAL);
         return decimal;
     }
+
     /**
      * By default only refreshes TextView with result, override in subclass if you need to add refreshing of something else
+     *
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
      */
     @CallSuper
-    protected void refreshResultView(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers)
-    {
-            //collecting value from number pickers to float
+    protected void refreshResultView(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers) {
+        //collecting value from number pickers to float
         float collectedValue = collect(integerNumberPickers, decimalNumberPickers);
 
-            //converts collected value from string to float
+        //converts collected value from string to float
         String resultString = getInnerResultString(collectedValue);
 
-            //obtaining TextView of result from layout
+        //obtaining TextView of result from layout
         TextView result = (TextView) findViewById(R.id.result);
 
-            //sets result to TextView
+        //sets result to TextView
         result.setText(resultString);
     }
 
     /**
      * By default only calls refreshResultView, override in subclass if you need to do anything else when number pickers touched
      * Note: called after min-max value is set and after starting value is set, all additional adjustment must go here
+     *
      * @param integerNumberPickers array of NumberPikers used to choose integer part of value
      * @param decimalNumberPickers array of NumberPikers used to choose decimal part of value
      * @see #setUpStyle(NumberPicker[], NumberPicker[], TextView)
@@ -266,11 +280,12 @@ public abstract class PickerDialog extends Dialog{
      */
     @CallSuper
     protected void onNumberPickersValuesChange(@NonNull NumberPicker[] integerNumberPickers, @NonNull NumberPicker[] decimalNumberPickers) {
-        refreshResultView(integerNumberPickers,decimalNumberPickers);
+        refreshResultView(integerNumberPickers, decimalNumberPickers);
     }
 
     /**
      * Override in subclass to change result formatting inside dialog
+     *
      * @param collectedValue normally value obtained by calling method collect
      * @return value converted to String
      * @see #collect(NumberPicker[], NumberPicker[])
@@ -282,9 +297,10 @@ public abstract class PickerDialog extends Dialog{
 
     /**
      * Sets listener for this dialog which will be invoked when Done button will be pressed
+     *
      * @param onDoneListener implementation of interface OnDoneListener from this class
      * @return this object for easier usage in the client code
-     * @see  #onDoneListener
+     * @see #onDoneListener
      */
     @CallSuper
     public PickerDialog setOnDoneListener(OnDoneListener onDoneListener) {
@@ -294,6 +310,7 @@ public abstract class PickerDialog extends Dialog{
 
     /**
      * Sets font for the dialog, by default will be used standard android typeface
+     *
      * @param typeface typeface to use
      * @return this object for easier usage in the client code
      */
@@ -313,33 +330,28 @@ public abstract class PickerDialog extends Dialog{
     }
 
 
-
-    public interface OnDoneListener{
-    public void onDone(float result);
+    public interface OnDoneListener {
+        public void onDone(float result);
     }
 
-    protected void setNumberPickerTextColor(NumberPicker numberPicker, int color)
-    {
+    protected void setNumberPickerTextColor(NumberPicker numberPicker, int color) {
         final int count = numberPicker.getChildCount();
-        for(int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             View child = numberPicker.getChildAt(i);
-            if(child instanceof EditText){
-                try{
+            if (child instanceof EditText) {
+                try {
                     Field selectorWheelPaintField = numberPicker.getClass()
                             .getDeclaredField("mSelectorWheelPaint");
                     selectorWheelPaintField.setAccessible(true);
-                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
-                    ((EditText)child).setTextColor(color);
+                    ((Paint) selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText) child).setTextColor(color);
                     numberPicker.invalidate();
 
-                }
-                catch(NoSuchFieldException e){
+                } catch (NoSuchFieldException e) {
                     Log.w("setNumberPickerTextClr", e);
-                }
-                catch(IllegalAccessException e){
+                } catch (IllegalAccessException e) {
                     Log.w("setNumberPickerTextClr", e);
-                }
-                catch(IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     Log.w("setNumberPickerTextClr", e);
                 }
             }

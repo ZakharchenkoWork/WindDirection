@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mistery.winddirection.R;
 
@@ -24,15 +26,20 @@ public class ChooserDialog extends Dialog{
     };
 
 
-    public ChooserDialog(Context ctx, final String title, final String[] elementsList, final OnChooseListener onChooseListener) {
+    public ChooserDialog(Context ctx, final String dialogTitle, final String[] elementsList, final OnChooseListener onChooseListener) {
         super(ctx);
+
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
         //simple layout with one ListView
         setContentView(R.layout.list_chooser_dialog);
 
-        //title for the dialog
-        setTitle(title);
+        // setting custom title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.dialog_title_bar);
 
-
+        //setting title
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText(dialogTitle);
 
             //Saving listener
         this.onChooseListener = onChooseListener;

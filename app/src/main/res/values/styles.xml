@@ -37,7 +37,7 @@
         <item name="android:maxLines">1</item>
         </style>
     <style name="text_label_orange" parent="text_label_main">
-        <item name="android:background">@drawable/text_field_label</item>
+        <item name="android:background">@drawable/text_field</item>
         <item name="android:paddingLeft">@dimen/text_label_padding_left</item>
         <item name="android:paddingStart" tools:ignore="NewApi">@dimen/text_label_padding_left</item>
         <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/text_label_padding_right</item>
@@ -46,5 +46,4 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:lineSpacingExtra">0dp</item>
     </style>
-
 </resources>

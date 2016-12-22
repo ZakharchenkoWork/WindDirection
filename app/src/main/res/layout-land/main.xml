@@ -7,59 +7,59 @@
     android:weightSum="1">
 
 
-
     <LinearLayout
         android:id="@+id/fullDataContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.4"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="@dimen/container_side_margin"
         android:layout_marginLeft="@dimen/container_side_margin"
         android:layout_marginRight="@dimen/container_side_margin"
         android:layout_marginStart="@dimen/container_side_margin"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.4"
+        android:weightSum="6"
         android:orientation="vertical">
 
 
+        <TextView
+            android:id="@+id/shipsSpeedLabel"
+            style="@style/text_label_orange"
+            android:layout_width="@dimen/text_label_minimal_width"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/shipsSpeedLabel"
-                style="@style/text_label_orange"
-                android:layout_width="@dimen/text_label_minimal_width"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/shipsSpeedButton"
-                style="@style/blue_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/minimal_vertical_margin"
-                android:text="@string/sSpeed" />
-
-
-
+        <Button
+            android:id="@+id/shipsSpeedButton"
+            style="@style/blue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:text="@string/sSpeed" />
 
 
-                <TextView
-                    android:id="@+id/shipsCourseLabel"
-                    style="@style/text_label_orange"
-                    android:layout_width="@dimen/text_label_minimal_width"
-                    android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/shipsCourseLabel"
+            style="@style/text_label_orange"
+            android:layout_weight="0.5"
+            android:layout_width="@dimen/text_label_minimal_width"
+            android:layout_height="wrap_content" />
 
-                <Button
-                    android:id="@+id/shipsCourseButton"
-                    style="@style/blue_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/minimal_vertical_margin"
-                    android:text="@string/sCourse" />
-
+        <Button
+            android:id="@+id/shipsCourseButton"
+            style="@style/blue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:text="@string/sCourse" />
 
 
         <TextView
             android:id="@+id/relativeWindDirectionLabel"
             style="@style/text_label_orange"
+            android:layout_weight="0.5"
             android:layout_width="@dimen/text_label_minimal_width"
             android:layout_height="wrap_content" />
 
@@ -68,8 +68,7 @@
             style="@style/green_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
+            android:layout_weight="1"
             android:layout_marginBottom="@dimen/minimal_vertical_margin"
             android:text="@string/rwCourse" />
 
@@ -77,6 +76,7 @@
         <TextView
             android:id="@+id/relativeWindSpeedLabel"
             style="@style/text_label_orange"
+            android:layout_weight="0.5"
             android:layout_width="@dimen/text_label_minimal_width"
             android:layout_height="wrap_content" />
 
@@ -85,129 +85,130 @@
             style="@style/green_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_weight="1"
             android:text="@string/rwSpeed" />
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/topContainer"
         android:layout_width="0dp"
-        android:layout_weight="0.6"
         android:layout_height="match_parent"
-        android:background="@drawable/backgrund_for_graphics"
-        >
+        android:layout_weight="0.6"
+        android:background="@drawable/backgrund_for_graphics">
+
         <RelativeLayout
             android:id="@+id/resultContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/label_purple">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal">
 
-            <com.romainpiel.shimmer.ShimmerTextView
-                android:id="@+id/result"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal">
 
-                android:gravity="center_horizontal" />
+                <com.romainpiel.shimmer.ShimmerTextView
+                    android:id="@+id/result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@+id/result"
-                android:src="@color/divider_color" />
+                    android:gravity="center_horizontal" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/result"
+                    android:src="@color/divider_color" />
+            </RelativeLayout>
         </RelativeLayout>
-        </RelativeLayout>
-
 
 
         <TextView
             android:id="@+id/ownShipLabel"
+            style="@style/text_label_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/text_label_main"
-            android:text="@string/ownShip"
-            android:layout_marginTop="@dimen/minimal_vertical_margin"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
             android:layout_above="@id/relativeWindLabel"
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:layout_marginTop="@dimen/minimal_vertical_margin"
             android:background="@drawable/label_purple"
-            />
+            android:text="@string/ownShip" />
+
         <TextView
             android:id="@+id/relativeWindLabel"
+            style="@style/text_label_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/text_label_main"
-            android:text="@string/rWind"
             android:layout_above="@+id/trueWindLabel"
             android:layout_marginBottom="@dimen/minimal_vertical_margin"
             android:background="@drawable/label_dark_green"
-            />
+            android:text="@string/rWind" />
+
         <TextView
             android:id="@+id/trueWindLabel"
+            style="@style/text_label_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
-            style="@style/text_label_main"
-            android:text="@string/tWind"
+            android:background="@drawable/label_orange"
 
 
-            android:background="@drawable/label_orange" />
+            android:text="@string/tWind" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/minimal_vertical_margin"
-            android:gravity="center"
+            android:layout_above="@+id/relativeWindLabel"
             android:layout_below="@id/resultContainer"
-            android:layout_above="@+id/relativeWindLabel">
+            android:layout_marginBottom="@dimen/minimal_vertical_margin"
+            android:gravity="center">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
                 android:src="@drawable/roze" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:id="@+id/shipsCourseVector"
-                />
 
             <ImageView
+                android:id="@+id/shipsCourseVector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:scaleType="centerInside" />
+
+            <ImageView
                 android:id="@+id/windDirectionVector"
-                />
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:scaleType="centerInside" />
+
+            <ImageView
                 android:id="@+id/windDirectionArrow"
-                />
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:scaleType="centerInside" />
+
+            <ImageView
                 android:id="@+id/resultVector"
-                />
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:scaleType="centerInside" />
+
+            <ImageView
                 android:id="@+id/resultArrow"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside" />
         </RelativeLayout>
 
     </RelativeLayout>
